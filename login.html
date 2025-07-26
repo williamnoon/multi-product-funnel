@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FunnelMaster Pro - Login</title>
+    <link rel="stylesheet" href="auth.css">
+    <link rel="stylesheet" href="icons.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="brand">
+                    <span class="icon-target"></span>
+                    <h1>FunnelMaster Pro</h1>
+                </div>
+                <p>Sign in to your account</p>
+            </div>
+
+            <form class="auth-form" id="login-form">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                    <span class="icon-email input-icon"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                    <span class="icon-lock input-icon"></span>
+                    <button type="button" class="password-toggle" onclick="togglePassword()">
+                        <span class="icon-eye"></span>
+                    </button>
+                </div>
+
+                <div class="form-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="remember">
+                        <span class="checkmark"></span>
+                        Remember me
+                    </label>
+                    <a href="#" onclick="showForgotPassword()">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="auth-button">
+                    <span class="button-text">Sign In</span>
+                    <span class="button-loader" style="display: none;">
+                        <span class="spinner"></span>
+                    </span>
+                </button>
+
+                <div class="auth-divider">
+                    <span>or</span>
+                </div>
+
+                <button type="button" class="social-button google" onclick="loginWithGoogle()">
+                    <span class="google-icon"></span>
+                    Continue with Google
+                </button>
+
+                <div class="auth-footer">
+                    <p>Don't have an account? <a href="#" onclick="showSignup()">Sign up</a></p>
+                </div>
+            </form>
+        </div>
+
+        <!-- Demo Login Accounts -->
+        <div class="demo-accounts">
+            <h3>Demo Accounts</h3>
+            <div class="demo-buttons">
+                <button class="demo-btn admin" onclick="demoLogin('admin')">
+                    <span class="icon-target"></span>
+                    Admin Login
+                </button>
+                <button class="demo-btn pro" onclick="demoLogin('pro')">
+                    <span class="icon-rocket"></span>
+                    Pro User
+                </button>
+                <button class="demo-btn basic" onclick="demoLogin('basic')">
+                    <span class="icon-users"></span>
+                    Basic User
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div id="signup-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create Account</h3>
+                <button class="modal-close" onclick="closeSignup()">&times;</button>
+            </div>
+            <form class="auth-form" id="signup-form">
+                <div class="form-group">
+                    <label for="signup-name">Full Name</label>
+                    <input type="text" id="signup-name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="signup-email">Email Address</label>
+                    <input type="email" id="signup-email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" name="password" required>
+                    <div class="password-strength">
+                        <div class="strength-bar"></div>
+                        <span class="strength-text">Password strength</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="signup-plan">Choose Plan</label>
+                    <div class="plan-selector">
+                        <div class="plan-option">
+                            <input type="radio" id="plan-basic" name="plan" value="basic" checked>
+                            <label for="plan-basic" class="plan-label">
+                                <div class="plan-header">
+                                    <h4>Basic</h4>
+                                    <span class="plan-price">Free</span>
+                                </div>
+                                <ul class="plan-features">
+                                    <li>3 funnels maximum</li>
+                                    <li>Basic templates</li>
+                                    <li>Email support</li>
+                                </ul>
+                            </label>
+                        </div>
+
+                        <div class="plan-option">
+                            <input type="radio" id="plan-pro" name="plan" value="pro">
+                            <label for="plan-pro" class="plan-label">
+                                <div class="plan-header">
+                                    <h4>Pro</h4>
+                                    <span class="plan-price">$29/mo</span>
+                                </div>
+                                <ul class="plan-features">
+                                    <li>Unlimited funnels</li>
+                                    <li>Premium templates</li>
+                                    <li>Priority support</li>
+                                    <li>Advanced analytics</li>
+                                </ul>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="terms" required>
+                        <span class="checkmark"></span>
+                        I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                    </label>
+                </div>
+
+                <button type="submit" class="auth-button">
+                    <span class="button-text">Create Account</span>
+                    <span class="button-loader" style="display: none;">
+                        <span class="spinner"></span>
+                    </span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div id="forgot-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Reset Password</h3>
+                <button class="modal-close" onclick="closeForgotPassword()">&times;</button>
+            </div>
+            <form class="auth-form" id="forgot-form">
+                <p>Enter your email address and we'll send you a link to reset your password.</p>
+                
+                <div class="form-group">
+                    <label for="forgot-email">Email Address</label>
+                    <input type="email" id="forgot-email" name="email" required>
+                </div>
+
+                <button type="submit" class="auth-button">
+                    <span class="button-text">Send Reset Link</span>
+                    <span class="button-loader" style="display: none;">
+                        <span class="spinner"></span>
+                    </span>
+                </button>
+
+                <div class="auth-footer">
+                    <p><a href="#" onclick="closeForgotPassword()">Back to login</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+</body>
+</html>

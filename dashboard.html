@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FunnelMaster Pro - Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="icons.css">
+</head>
+<body>
+    <!-- User Header -->
+    <header class="user-header">
+        <div class="header-content">
+            <div class="brand">
+                <span class="icon-target"></span>
+                <h1>FunnelMaster Pro</h1>
+            </div>
+            <div class="user-info">
+                <div class="plan-badge" id="user-plan">Basic</div>
+                <span class="user-avatar" id="user-avatar">BU</span>
+                <div class="user-details">
+                    <span class="user-name" id="user-name">Basic User</span>
+                    <span class="user-email" id="user-email">basic@example.com</span>
+                </div>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Dashboard -->
+    <main class="dashboard-main">
+        <div class="dashboard-container">
+            <!-- Welcome Section -->
+            <section class="welcome-section">
+                <div class="welcome-content">
+                    <h2>Welcome back, <span id="welcome-name">User</span>!</h2>
+                    <p>Ready to create high-converting funnels? Let's get started.</p>
+                </div>
+                <button class="create-funnel-btn" onclick="createNewFunnel()">
+                    <span class="icon-target"></span>
+                    Create New Funnel
+                </button>
+            </section>
+
+            <!-- Quick Stats -->
+            <section class="stats-section">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <span class="icon-target"></span>
+                        </div>
+                        <div class="stat-content">
+                            <h3>My Funnels</h3>
+                            <p class="stat-number" id="funnel-count">0</p>
+                            <p class="stat-limit" id="funnel-limit"></p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <span class="icon-chart"></span>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Total Views</h3>
+                            <p class="stat-number" id="total-views">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <span class="icon-users"></span>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Conversions</h3>
+                            <p class="stat-number" id="total-conversions">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <span class="icon-crypto"></span>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Revenue</h3>
+                            <p class="stat-number" id="total-revenue">$0</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Plan Upgrade Notice (for Basic users) -->
+            <section class="upgrade-notice" id="upgrade-notice" style="display: none;">
+                <div class="upgrade-content">
+                    <div class="upgrade-icon">
+                        <span class="icon-rocket"></span>
+                    </div>
+                    <div class="upgrade-text">
+                        <h3>Upgrade to Pro</h3>
+                        <p>Unlock unlimited funnels, premium templates, and advanced analytics</p>
+                    </div>
+                    <button class="upgrade-btn" onclick="showUpgradeModal()">
+                        Upgrade Now
+                    </button>
+                </div>
+            </section>
+
+            <!-- My Funnels -->
+            <section class="funnels-section">
+                <div class="section-header">
+                    <h3>My Funnels</h3>
+                    <div class="section-actions">
+                        <select class="filter-select" id="funnel-filter">
+                            <option value="all">All Funnels</option>
+                            <option value="published">Published</option>
+                            <option value="draft">Draft</option>
+                        </select>
+                        <button class="btn-secondary" onclick="browseTemplates()">
+                            <span class="icon-rocket"></span>
+                            Browse Templates
+                        </button>
+                    </div>
+                </div>
+
+                <div class="funnels-grid" id="user-funnels">
+                    <!-- User funnels will be populated here -->
+                </div>
+
+                <div class="empty-state" id="empty-funnels" style="display: none;">
+                    <div class="empty-icon">
+                        <span class="icon-target"></span>
+                    </div>
+                    <h3>No funnels yet</h3>
+                    <p>Create your first funnel to start converting visitors into customers</p>
+                    <button class="btn-primary" onclick="createNewFunnel()">
+                        <span class="icon-target"></span>
+                        Create Your First Funnel
+                    </button>
+                </div>
+            </section>
+
+            <!-- Templates Section -->
+            <section class="templates-section">
+                <div class="section-header">
+                    <h3>Featured Templates</h3>
+                    <a href="#" onclick="browseTemplates()">View All →</a>
+                </div>
+
+                <div class="templates-grid" id="featured-templates">
+                    <!-- Featured templates will be populated here -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Create Funnel Modal -->
+    <div id="create-funnel-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create New Funnel</h3>
+                <button class="modal-close" onclick="closeCreateFunnel()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="create-options">
+                    <div class="create-option" onclick="createFromScratch()">
+                        <div class="option-icon">
+                            <span class="icon-target"></span>
+                        </div>
+                        <div class="option-content">
+                            <h4>Start from Scratch</h4>
+                            <p>Build a custom funnel with full control</p>
+                        </div>
+                    </div>
+
+                    <div class="create-option" onclick="createFromTemplate()">
+                        <div class="option-icon">
+                            <span class="icon-rocket"></span>
+                        </div>
+                        <div class="option-content">
+                            <h4>Use Template</h4>
+                            <p>Start with a proven funnel template</p>
+                        </div>
+                    </div>
+
+                    <div class="create-option" onclick="importFunnel()">
+                        <div class="option-icon">
+                            <span class="icon-mobile"></span>
+                        </div>
+                        <div class="option-content">
+                            <h4>Import Funnel</h4>
+                            <p>Import an existing funnel configuration</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Template Browser Modal -->
+    <div id="template-browser-modal" class="modal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3>Choose Template</h3>
+                <button class="modal-close" onclick="closeTemplateBrowser()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="template-categories">
+                    <button class="category-btn active" data-category="all">All</button>
+                    <button class="category-btn" data-category="ai-income">AI & Tech</button>
+                    <button class="category-btn" data-category="crypto-wealth">Finance</button>
+                    <button class="category-btn" data-category="app-empire">Digital Products</button>
+                </div>
+
+                <div class="templates-browser-grid" id="templates-browser">
+                    <!-- Templates will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upgrade Modal -->
+    <div id="upgrade-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Upgrade to Pro</h3>
+                <button class="modal-close" onclick="closeUpgradeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="upgrade-comparison">
+                    <div class="plan-column current">
+                        <h4>Current Plan: Basic</h4>
+                        <ul class="plan-features">
+                            <li>3 funnels maximum</li>
+                            <li>Basic templates</li>
+                            <li>Email support</li>
+                        </ul>
+                    </div>
+
+                    <div class="plan-column pro">
+                        <h4>Pro Plan: $29/month</h4>
+                        <ul class="plan-features">
+                            <li>Unlimited funnels</li>
+                            <li>Premium templates</li>
+                            <li>Advanced analytics</li>
+                            <li>Priority support</li>
+                            <li>Custom domains</li>
+                            <li>A/B testing</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="upgrade-actions">
+                    <button class="btn-secondary" onclick="closeUpgradeModal()">Maybe Later</button>
+                    <button class="btn-primary" onclick="upgradeToPro()">
+                        Upgrade to Pro - $29/month
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
