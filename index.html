@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Product Funnel System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Product Selector -->
+    <div class="product-selector">
+        <h3>Select Product Line:</h3>
+        <div id="product-buttons">
+            <button class="product-btn active" data-product="ai-income">
+                <span class="icon">🧠</span>
+                <span>AI Income Blueprint</span>
+            </button>
+            <button class="product-btn" data-product="crypto-wealth">
+                <span class="icon">₿</span>
+                <span>Crypto Money Machine</span>
+            </button>
+            <button class="product-btn" data-product="app-empire">
+                <span class="icon">📱</span>
+                <span>AI App Empire</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Traffic/Landing Page -->
+    <div id="traffic-page" class="page active traffic-page gradient-bg-ai">
+        <div class="container">
+            <div class="traffic-header">
+                <div class="breakthrough-badge">
+                    BREAKTHROUGH: New System Discovered
+                </div>
+                <h1 class="main-headline">
+                    Start Earning with AI in Just 7 Days
+                    <br>
+                    <span class="highlight">Starting Today</span>
+                </h1>
+                <p class="subheadline" id="subheadline">
+                    Get the complete system that helped Maria go from zero to $2,100/month using AI tools (no tech skills required)
+                </p>
+            </div>
+
+            <!-- Lead Magnet Preview -->
+            <div class="lead-magnet-preview">
+                <div class="preview-grid">
+                    <div class="preview-content">
+                        <h3 id="lead-magnet-title">
+                            🎁 FREE: The 7-Day AI Income Quick Start System
+                        </h3>
+                        <ul class="benefits-list" id="benefits-list">
+                            <li>7-day step-by-step implementation plan</li>
+                            <li>50+ proven AI prompts that generate income</li>
+                            <li>Complete list of free AI tools to get started</li>
+                            <li>Real case studies and examples</li>
+                        </ul>
+                    </div>
+                    <div class="preview-visual">
+                        <div class="guide-mockup gradient-primary-ai" id="guide-mockup">
+                            <div>
+                                <div style="font-size: 3rem; margin-bottom: 0.5rem;">🧠</div>
+                                <p style="font-weight: bold;">Complete Guide</p>
+                            </div>
+                        </div>
+                        <p style="text-align: center; font-weight: 600;">Instant Download</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Opt-in Form -->
+            <div class="optin-form">
+                <input type="email" id="email-input" placeholder="Enter your email address">
+                <button class="cta-button" onclick="handleOptIn()">
+                    Send Me The Free Guide
+                </button>
+                <p class="privacy-text">
+                    📧 We respect your privacy. Unsubscribe at any time.
+                </p>
+            </div>
+
+            <!-- Social Proof -->
+            <div class="social-proof" id="social-proof">
+                <div class="testimonial">
+                    <div class="emoji">👩‍💼</div>
+                    <p class="name">Maria S.</p>
+                    <p class="result">$2,100 in month 1</p>
+                </div>
+                <div class="testimonial">
+                    <div class="emoji">👨‍💻</div>
+                    <p class="name">David L.</p>
+                    <p class="result">$850 in first week</p>
+                </div>
+                <div class="testimonial">
+                    <div class="emoji">👩‍🎨</div>
+                    <p class="name">Sarah K.</p>
+                    <p class="result">$3,500 monthly</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Thank You Page -->
+    <div id="thankyou-page" class="page thankyou-page">
+        <div class="container">
+            <div class="thankyou-content">
+                <div class="check-icon">✓</div>
+                <h1>Check Your Email! 📧</h1>
+                <p>
+                    Your "<span id="lead-magnet-name">The 7-Day AI Income Quick Start System</span>" is on its way to <strong id="user-email">your email</strong>
+                </p>
+                
+                <div class="pro-tip">
+                    <p>
+                        <strong>Pro Tip:</strong> Check your spam folder and add us to your contacts to ensure you get all our valuable content!
+                    </p>
+                </div>
+
+                <div class="hidden-gem">
+                    <h3>🚀 While You're Here...</h3>
+                    <p id="tripwire-preview">
+                        Want to skip the learning curve? Get our complete AI Income Toolkit with everything you need for a special launch price.
+                    </p>
+                    <button class="cta-button" onclick="showPage('tripwire')">
+                        Show Me The Special Offer →
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tripwire Page -->
+    <div id="tripwire-page" class="page tripwire-page">
+        <div class="scarcity-header">
+            <span>Special Offer Expires in <span id="timer">15:00</span></span>
+        </div>
+        
+        <div class="tripwire-content">
+            <h1 class="tripwire-headline">
+                Since You Want to <span id="goal-text">Earn with AI</span>...
+                <br>
+                <span class="price-highlight">Get Everything You Need for Just $<span id="tripwire-price">47</span></span>
+            </h1>
+
+            <div class="tripwire-grid">
+                <div class="video-section">
+                    <div>
+                        <div class="play-button"></div>
+                        <p style="font-size: 1.125rem;">3-Minute Toolkit Overview</p>
+                        <p style="font-size: 0.875rem; color: #d1d5db;">Click to play</p>
+                    </div>
+                </div>
+
+                <div class="value-stack">
+                    <h3 id="tripwire-name">AI Income Toolkit</h3>
+                    <div id="value-items">
+                        <div class="value-item">
+                            <span class="description">Complete AI Income Video Course (5 modules)</span>
+                            <span class="price">$197</span>
+                        </div>
+                        <div class="value-item">
+                            <span class="description">147 ChatGPT prompts for income generation</span>
+                            <span class="price">$97</span>
+                        </div>
+                        <div class="value-item">
+                            <span class="description">Done-for-you service templates</span>
+                            <span class="price">$67</span>
+                        </div>
+                        <div class="value-item">
+                            <span class="description">Private community access</span>
+                            <span class="price">$47</span>
+                        </div>
+                    </div>
+                    <div class="total-value">
+                        <div class="total-row">
+                            <span style="font-weight: bold;">Total Value:</span>
+                            <span class="crossed-out" id="total-value">$408</span>
+                        </div>
+                        <div class="total-row your-price">
+                            <span>Your Price:</span>
+                            <span>$<span id="final-price">47</span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="purchase-section">
+                <div class="launch-special">
+                    <p>
+                        <strong>🎉 Launch Special:</strong> We're offering this incredible price to celebrate our new launch!
+                    </p>
+                </div>
+
+                <div class="guarantee-box">
+                    <p id="guarantee-text">
+                        <strong>Our Guarantee:</strong> Complete access to all AI tools and templates for life
+                    </p>
+                </div>
+
+                <div class="social-indicator">
+                    <span id="purchase-count">127</span> people purchased this in the last 24 hours
+                </div>
+
+                <button class="cta-button" onclick="handleTripwirePurchase()">
+                    Get Instant Access for $<span id="cta-price">47</span>
+                </button>
+
+                <div class="secure-checkout">
+                    <div class="secure-item">Secure Checkout</div>
+                    <div class="secure-item guaranteed-item">30-Day Guarantee</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upsell Page -->
+    <div id="upsell-page" class="page upsell-page">
+        <div class="container">
+            <div class="upsell-content">
+                <div class="confirmation-box">
+                    <p>Perfect! Your <span id="confirmed-product">AI Income Toolkit</span> is confirmed.</p>
+                </div>
+
+                <h1 class="upsell-headline">
+                    Wait! Add the Complete System for
+                    <br>
+                    <span class="savings-highlight">70% Off (Normally $<span id="normal-price">492</span>)</span>
+                </h1>
+
+                <p class="upsell-description">
+                    You just saved $<span id="savings1">141</span>... save $<span id="savings2">295</span> more with the complete <span id="core-offer-name">AI Profit Accelerator System</span>!
+                </p>
+
+                <div class="upsell-box">
+                    <h3 id="upsell-title">AI Profit Accelerator System</h3>
+                    
+                    <div class="features-grid">
+                        <div class="features-list">
+                            <h4>What You Get:</h4>
+                            <ul id="upsell-features">
+                                <li>Complete AI Business Implementation System</li>
+                                <li>Advanced automation strategies and workflows</li>
+                                <li>Scaling from $100 to $5,000/month blueprint</li>
+                                <li>Live weekly Q&A sessions with the instructor</li>
+                                <li>Done-with-you case study development</li>
+                                <li>Lifetime access to all updates and new modules</li>
+                            </ul>
+                        </div>
+                        <div class="results-box">
+                            <div class="results-icon"></div>
+                            <p style="font-weight: bold; font-size: 1.125rem;">Average Results</p>
+                            <p class="results-value" id="results-range">$500-5,000</p>
+                            <p style="color: #6b7280;" id="results-timeframe">per month within 90 days</p>
+                        </div>
+                    </div>
+
+                    <div class="urgency-box">
+                        <p>This one-time offer expires in 10 minutes!</p>
+                    </div>
+
+                    <button class="cta-button" onclick="handleCorePurchase()">
+                        Add Complete System for $<span id="core-price">197</span>
+                    </button>
+
+                    <p style="color: #6b7280; margin: 1rem 0;">or</p>
+                    
+                    <button class="decline-button" onclick="showPage('backend')">
+                        No thanks, take me to my toolkit
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Backend Page -->
+    <div id="backend-page" class="page backend-page">
+        <div class="container">
+            <div class="backend-content">
+                <div class="backend-header">
+                    <h1 class="backend-headline">
+                        You've Seen What's Possible...
+                        <br>
+                        <span id="scaling-text" style="color: #3b82f6;">Now Let Me Help You Scale</span>
+                    </h1>
+                    <p class="exclusive-text">
+                        Exclusive invitation for <span id="target-audience">entrepreneurs and freelancers</span> only
+                    </p>
+                </div>
+
+                <div class="tiers-grid">
+                    <!-- Tier 1 -->
+                    <div class="tier-card">
+                        <div class="tier-header">
+                            <div class="tier-icon"></div>
+                            <h3 class="tier-title" id="backend1-name">AI Mastery Coaching</h3>
+                            <div class="tier-price">$<span id="backend1-price">997</span></div>
+                            <p class="tier-period">per month</p>
+                        </div>
+                        
+                        <ul class="tier-features" id="tier1-features">
+                            <li>Monthly group coaching calls</li>
+                            <li>Private mastermind community</li>
+                            <li>Advanced AI automation training</li>
+                            <li>Direct access to instructor</li>
+                            <li>Weekly live Q&A sessions</li>
+                        </ul>
+
+                        <button class="tier-button primary">
+                            Join <span id="backend1-name-btn">AI Mastery Coaching</span>
+                        </button>
+                    </div>
+
+                    <!-- Tier 2 -->
+                    <div class="tier-card popular gradient-primary-ai" style="color: white;">
+                        <div class="popular-badge">MOST POPULAR</div>
+                        
+                        <div class="tier-header">
+                            <div class="tier-icon rocket"></div>
+                            <h3 class="tier-title" id="backend2-name">Done-with-You AI Business</h3>
+                            <div class="tier-price" style="color: #fbbf24;">$<span id="backend2-price">2997</span></div>
+                            <p class="tier-period" style="color: rgba(255,255,255,0.8);">one-time payment</p>
+                        </div>
+                        
+                        <ul class="tier-features" id="tier2-features">
+                            <li>90-day intensive implementation program</li>
+                            <li>Weekly 1-on-1 strategy calls</li>
+                            <li>Custom AI business setup included</li>
+                            <li>Done-with-you case study development</li>
+                            <li>Guaranteed results or money back</li>
+                        </ul>
+
+                        <button class="tier-button popular">
+                            Secure Your Spot (Only 25 Available)
+                        </button>
+                    </div>
+                </div>
+
+                <div class="backend-footer">
+                    <p>🔥 Limited Time: Next cohort starts in 7 days</p>
+                    <p class="small">
+                        Can't decide? Schedule a free 15-minute strategy call to see which option is right for you.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Funnel Navigation -->
+    <div class="funnel-nav">
+        <h4>Funnel Navigation:</h4>
+        <button class="nav-btn active" data-page="traffic">1. Landing Page</button>
+        <button class="nav-btn" data-page="thankyou">2. Thank You</button>
+        <button class="nav-btn" data-page="tripwire">3. Tripwire ($<span id="nav-tripwire-price">47</span>)</button>
+        <button class="nav-btn" data-page="upsell">4. Core Upsell ($<span id="nav-core-price">197</span>)</button>
+        <button class="nav-btn" data-page="backend">5. Backend Offers</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
