@@ -15,7 +15,7 @@ const products = {
             primary: 'gradient-primary-ai',
             bg: 'gradient-bg-ai'
         },
-        icon: '🧠',
+        icon: 'icon-brain',
         target: 'entrepreneurs and freelancers',
         guarantee: 'Complete access to all AI tools and templates for life',
         content: {
@@ -28,9 +28,9 @@ const products = {
                 "Real case studies and examples"
             ],
             testimonials: [
-                { name: "Maria S.", result: "$2,100 in month 1", emoji: "👩‍💼" },
-                { name: "David L.", result: "$850 in first week", emoji: "👨‍💻" },
-                { name: "Sarah K.", result: "$3,500 monthly", emoji: "👩‍🎨" }
+                { name: "Maria S.", result: "$2,100 in month 1", avatar: "female", initials: "MS" },
+                { name: "David L.", result: "$850 in first week", avatar: "male", initials: "DL" },
+                { name: "Sarah K.", result: "$3,500 monthly", avatar: "creative", initials: "SK" }
             ],
             tripwireItems: [
                 { item: "Complete AI Income Video Course (5 modules)", value: "$197" },
@@ -82,7 +82,7 @@ const products = {
             primary: 'gradient-primary-crypto',
             bg: 'gradient-bg-crypto'
         },
-        icon: '₿',
+        icon: 'icon-crypto',
         target: 'crypto investors and traders',
         guarantee: 'Every strategy, tool, and analysis method included with lifetime updates',
         content: {
@@ -95,9 +95,9 @@ const products = {
                 "DeFi strategies for passive income"
             ],
             testimonials: [
-                { name: "John R.", result: "$15K profit in 30 days", emoji: "👨‍💼" },
-                { name: "Lisa M.", result: "300% portfolio growth", emoji: "👩‍💼" },
-                { name: "Mike T.", result: "$5K passive income", emoji: "👨‍🔬" }
+                { name: "John R.", result: "$15K profit in 30 days", avatar: "male", initials: "JR" },
+                { name: "Lisa M.", result: "300% portfolio growth", avatar: "female", initials: "LM" },
+                { name: "Mike T.", result: "$5K passive income", avatar: "creative", initials: "MT" }
             ],
             tripwireItems: [
                 { item: "Advanced crypto trading strategies course", value: "$297" },
@@ -149,7 +149,7 @@ const products = {
             primary: 'gradient-primary-app',
             bg: 'gradient-bg-app'
         },
-        icon: '📱',
+        icon: 'icon-mobile',
         target: 'aspiring app developers',
         guarantee: 'Complete app development framework with all templates and code',
         content: {
@@ -162,9 +162,9 @@ const products = {
                 "Done-for-you app templates"
             ],
             testimonials: [
-                { name: "Jennifer B.", result: "$10K/month app business", emoji: "👩‍💻" },
-                { name: "Carlos R.", result: "3 successful apps launched", emoji: "👨‍💼" },
-                { name: "Amy W.", result: "$25K app sale", emoji: "👩‍🎨" }
+                { name: "Jennifer B.", result: "$10K/month app business", avatar: "female", initials: "JB" },
+                { name: "Carlos R.", result: "3 successful apps launched", avatar: "male", initials: "CR" },
+                { name: "Amy W.", result: "$25K app sale", avatar: "creative", initials: "AW" }
             ],
             tripwireItems: [
                 { item: "No-code app development masterclass", value: "$397" },
@@ -219,6 +219,7 @@ let customerData = {
 function init() {
     updateProductContent();
     startTimer();
+    updateProgressBar();
 }
 
 // Product switching
@@ -273,7 +274,7 @@ function updateProductContent() {
     guideMockup.className = `guide-mockup ${product.colors.primary}`;
     guideMockup.innerHTML = `
         <div>
-            <div style="font-size: 3rem; margin-bottom: 0.5rem;">${product.icon}</div>
+            <div class="large-icon ${product.icon}"></div>
             <p style="font-weight: bold;">Complete Guide</p>
         </div>
     `;
@@ -282,7 +283,7 @@ function updateProductContent() {
     const socialProof = document.getElementById('social-proof');
     socialProof.innerHTML = product.content.testimonials.map(testimonial => `
         <div class="testimonial">
-            <div class="emoji">${testimonial.emoji}</div>
+            <div class="avatar-professional ${testimonial.avatar}">${testimonial.initials}</div>
             <p class="name">${testimonial.name}</p>
             <p class="result">${testimonial.result}</p>
         </div>
@@ -373,16 +374,33 @@ function showPage(pageId) {
     document.getElementById(pageId + '-page').classList.add('active');
     currentStep = pageId;
     updateNavigation();
+    updateProgressBar();
 }
 
 // Update navigation
 function updateNavigation() {
-    document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.classList.remove('active');
+    const steps = ['traffic', 'thankyou', 'tripwire', 'upsell', 'backend'];
+    const currentIndex = steps.indexOf(currentStep);
+    
+    document.querySelectorAll('.nav-btn').forEach((btn, index) => {
+        btn.classList.remove('active', 'completed');
+        
         if (btn.dataset.page === currentStep) {
             btn.classList.add('active');
+        } else if (index < currentIndex) {
+            btn.classList.add('completed');
         }
     });
+}
+
+// Update progress bar
+function updateProgressBar() {
+    const steps = ['traffic', 'thankyou', 'tripwire', 'upsell', 'backend'];
+    const currentIndex = steps.indexOf(currentStep);
+    const progress = ((currentIndex + 1) / steps.length) * 100;
+    
+    const progressBar = document.getElementById('progress-bar');
+    progressBar.style.width = `${progress}%`;
 }
 
 // Timer functions
@@ -403,18 +421,69 @@ function updateTimer() {
         `${minutes}:${seconds.toString().padStart(2, '0')}`;
 }
 
+// Email validation function
+function validateEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+// Show validation message
+function showValidationMessage(input, message, isError = true) {
+    // Remove existing validation message
+    const existingMessage = input.parentNode.querySelector('.validation-message');
+    if (existingMessage) {
+        existingMessage.remove();
+    }
+    
+    // Create new validation message
+    const validationDiv = document.createElement('div');
+    validationDiv.className = `validation-message ${isError ? 'error' : 'success'}`;
+    validationDiv.textContent = message;
+    
+    // Insert after the input
+    input.parentNode.insertBefore(validationDiv, input.nextSibling);
+    
+    // Remove message after 3 seconds
+    setTimeout(() => {
+        if (validationDiv.parentNode) {
+            validationDiv.remove();
+        }
+    }, 3000);
+}
+
 // Action handlers
 function handleOptIn() {
     const emailInput = document.getElementById('email-input');
-    email = emailInput.value;
-    if (email) {
+    email = emailInput.value.trim();
+    
+    // Reset input styles
+    emailInput.classList.remove('error', 'success');
+    
+    if (!email) {
+        emailInput.classList.add('error');
+        showValidationMessage(emailInput, 'Please enter your email address');
+        return;
+    }
+    
+    if (!validateEmail(email)) {
+        emailInput.classList.add('error');
+        showValidationMessage(emailInput, 'Please enter a valid email address');
+        return;
+    }
+    
+    // Success - add success styling
+    emailInput.classList.add('success');
+    showValidationMessage(emailInput, 'Email validated successfully!', false);
+    
+    // Proceed with opt-in after short delay
+    setTimeout(() => {
         customerData.hasOptedIn = true;
         document.getElementById('lead-magnet-name').textContent = products[currentProduct].leadMagnet;
         document.getElementById('user-email').textContent = email;
         document.getElementById('tripwire-preview').textContent = 
             `Want to skip the learning curve? Get our complete ${products[currentProduct].tripwire} with everything you need for a special launch price.`;
         showPage('thankyou');
-    }
+    }, 800);
 }
 
 function handleTripwirePurchase() {
