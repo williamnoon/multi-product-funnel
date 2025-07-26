@@ -267,9 +267,105 @@ function editFunnel(id) {
 function viewFunnel(id) {
     const funnel = userFunnels.find(f => f.id === id);
     if (funnel) {
-        showNotification(`Opening funnel: ${funnel.name}`, 'info');
-        // In real app: window.open(`funnel.html?id=${id}`, '_blank');
+        if (funnel.status === 'published') {
+            viewPublishedFunnel(id, funnel.type);
+        } else {
+            showNotification(`Opening funnel: ${funnel.name}`, 'info');
+            // In real app: window.open(`funnel.html?id=${id}`, '_blank');
+        }
     }
+}
+
+// View published funnel in clean mode
+function viewPublishedFunnel(funnelId, productType) {
+    const publishedUrl = `index.html?published=true&funnel=${funnelId}&product=${productType}`;
+    
+    // Show URL for copying
+    showPublishedUrlModal(publishedUrl, funnelId);
+}
+
+// Show published URL modal
+function showPublishedUrlModal(url, funnelId) {
+    const modal = document.createElement('div');
+    modal.className = 'modal active';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Published Funnel URL</h3>
+                <button class="modal-close" onclick="this.closest('.modal').remove()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Your funnel is published! Share this clean URL with your audience:</p>
+                
+                <div style="background: #f9fafb; padding: 1rem; border-radius: 8px; margin: 1rem 0; font-family: monospace; word-break: break-all;">
+                    ${window.location.origin}/${url}
+                </div>
+                
+                <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                    <button class="btn-primary" onclick="copyToClipboard('${url}')">
+                        Copy URL
+                    </button>
+                    <button class="btn-secondary" onclick="window.open('${url}', '_blank')">
+                        Preview
+                    </button>
+                </div>
+                
+                <div style="background: #eff6ff; padding: 1rem; border-radius: 8px; border-left: 4px solid #3b82f6;">
+                    <p style="margin: 0; color: #1e40af; font-size: 0.875rem;">
+                        <strong>Note:</strong> This URL shows a clean funnel without admin components - perfect for sharing with customers!
+                    </p>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Auto-remove when clicking outside
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            modal.remove();
+        }
+    });
+}
+
+// Copy URL to clipboard
+function copyToClipboard(url) {
+    const fullUrl = `${window.location.origin}/${url}`;
+    
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(fullUrl).then(() => {
+            showNotification('URL copied to clipboard!', 'success');
+        }).catch(() => {
+            fallbackCopyTextToClipboard(fullUrl);
+        });
+    } else {
+        fallbackCopyTextToClipboard(fullUrl);
+    }
+}
+
+// Fallback copy function
+function fallbackCopyTextToClipboard(text) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    
+    // Make it invisible
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-999999px';
+    textArea.style.top = '-999999px';
+    
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    
+    try {
+        document.execCommand('copy');
+        showNotification('URL copied to clipboard!', 'success');
+    } catch (err) {
+        showNotification('Failed to copy URL. Please copy manually.', 'error');
+    }
+    
+    document.body.removeChild(textArea);
 }
 
 function deleteFunnel(id) {

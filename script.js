@@ -215,11 +215,124 @@ let customerData = {
     hasPurchasedCore: false
 };
 
+// Check if this is a published funnel view
+let isPublishedMode = false;
+let funnelId = null;
+
 // Initialize
 function init() {
+    checkPublishedMode();
     updateProductContent();
     startTimer();
     updateProgressBar();
+    
+    if (isPublishedMode) {
+        hideAdminComponents();
+    }
+}
+
+// Check if this is a published funnel
+function checkPublishedMode() {
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Check for published mode parameters
+    if (urlParams.has('published') || urlParams.has('funnel') || urlParams.has('id')) {
+        isPublishedMode = true;
+        funnelId = urlParams.get('funnel') || urlParams.get('id');
+        
+        // Load specific funnel configuration if provided
+        if (funnelId) {
+            loadPublishedFunnel(funnelId);
+        }
+        
+        // Set specific product if provided
+        const productParam = urlParams.get('product');
+        if (productParam && products[productParam]) {
+            currentProduct = productParam;
+        }
+        
+        // Set starting page if provided
+        const pageParam = urlParams.get('page');
+        if (pageParam) {
+            currentStep = pageParam;
+        }
+    }
+}
+
+// Hide admin/testing components for published funnels
+function hideAdminComponents() {
+    // Hide product selector
+    const productSelector = document.querySelector('.product-selector');
+    if (productSelector) {
+        productSelector.style.display = 'none';
+    }
+    
+    // Hide funnel navigation
+    const funnelNav = document.querySelector('.funnel-nav');
+    if (funnelNav) {
+        funnelNav.style.display = 'none';
+    }
+    
+    // Hide progress bar (optional - you might want to keep this)
+    const progressContainer = document.querySelector('.progress-container');
+    if (progressContainer) {
+        progressContainer.style.display = 'none';
+    }
+    
+    // Adjust page layout for removed components
+    document.body.classList.add('published-mode');
+}
+
+// Load specific published funnel configuration
+function loadPublishedFunnel(funnelId) {
+    // In a real app, this would fetch funnel config from database
+    // For demo, we'll use localStorage to check if funnel exists
+    
+    try {
+        // Check all users' funnels to find the published one
+        const allUsers = JSON.parse(localStorage.getItem('funnelmaster_users') || '[]');
+        
+        for (const user of allUsers) {
+            const userFunnels = JSON.parse(localStorage.getItem(`funnels_${user.id}`) || '[]');
+            const funnel = userFunnels.find(f => f.id == funnelId && f.status === 'published');
+            
+            if (funnel) {
+                // Load funnel configuration
+                currentProduct = funnel.type || 'ai-income';
+                
+                // Apply any custom funnel settings
+                if (funnel.customSettings) {
+                    applyCustomFunnelSettings(funnel.customSettings);
+                }
+                
+                return funnel;
+            }
+        }
+        
+        // If funnel not found, show error or redirect
+        console.warn(`Published funnel ${funnelId} not found`);
+        
+    } catch (error) {
+        console.error('Error loading published funnel:', error);
+    }
+    
+    return null;
+}
+
+// Apply custom funnel settings
+function applyCustomFunnelSettings(settings) {
+    // Apply custom headlines, prices, etc.
+    if (settings.customHeadline) {
+        // Update headline in the product data
+        products[currentProduct].content.headline = settings.customHeadline;
+    }
+    
+    if (settings.customPrices) {
+        products[currentProduct].tripwirePrice = settings.customPrices.tripwire || products[currentProduct].tripwirePrice;
+        products[currentProduct].corePrice = settings.customPrices.core || products[currentProduct].corePrice;
+    }
+    
+    // Apply other custom settings as needed
 }
 
 // Product switching

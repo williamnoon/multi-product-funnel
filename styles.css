@@ -1099,6 +1099,57 @@ button:hover {
     background: #d1d5db;
 }
 
+/* Published Mode Styles */
+body.published-mode {
+    padding: 0;
+}
+
+body.published-mode .page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+body.published-mode .container {
+    flex: 1;
+    padding: 2rem 1rem;
+}
+
+/* Hide admin components in published mode */
+body.published-mode .product-selector,
+body.published-mode .funnel-nav,
+body.published-mode .progress-container {
+    display: none !important;
+}
+
+/* Adjust spacing for published funnels */
+body.published-mode .traffic-page {
+    padding: 2rem 0;
+}
+
+body.published-mode .thankyou-page,
+body.published-mode .tripwire-page,
+body.published-mode .upsell-page,
+body.published-mode .backend-page {
+    padding: 2rem 0;
+}
+
+/* Clean published funnel styling */
+.published-funnel-header {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.published-funnel-brand {
+    color: white;
+    font-size: 1.125rem;
+    font-weight: 600;
+    opacity: 0.9;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .main-headline {
@@ -1128,5 +1179,18 @@ button:hover {
 
     .tier-card.popular {
         transform: none;
+    }
+    
+    /* Published mode mobile adjustments */
+    body.published-mode .container {
+        padding: 1rem;
+    }
+    
+    body.published-mode .traffic-page,
+    body.published-mode .thankyou-page,
+    body.published-mode .tripwire-page,
+    body.published-mode .upsell-page,
+    body.published-mode .backend-page {
+        padding: 1rem 0;
     }
 }
